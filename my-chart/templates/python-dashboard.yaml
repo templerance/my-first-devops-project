@@ -1,20 +1,29 @@
-apiVersion: v1
-kind: Pod
+apiVersion: apps/v1
+kind: Deployment
 metadata:
   name: python-dashboard
   labels:
     app: dashboard
 spec:
-  containers:
-    - name: python-app
-      image: my-python-dashboard:v1
-      imagePullPolicy: Never
-      ports:
-        - containerPort: 5000
-      env:
-        - name: POSTGRES_USER
-          value: "myuser"
-        - name: POSTGRES_PASSWORD
-          value: "mysecretpassword"
-        - name: POSTGRES_DB
-          value: "mydb"
+  replicas: 3
+  selector:
+    matchLabels:
+      app: dashboard
+  template:
+    metadata:
+      labels:
+        app: dashboard
+    spec:
+      containers:
+        - name: python-app
+          image: my-python-dashboard:v1
+          imagePullPolicy: Never
+          ports:
+            - containerPort: 5000
+          env:
+            - name: POSTGRES_USER
+              value: "myuser"
+            - name: POSTGRES_PASSWORD
+              value: "mysecretpassword"
+            - name: POSTGRES_DB
+              value: "mydb"
