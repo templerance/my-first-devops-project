@@ -1,0 +1,40 @@
+version: '3'
+services:
+  site1:
+    image: nginx:alpine
+    container_name: my-first-site
+    ports:
+      - '8000:80'
+    volumes:
+      - ./index.html:/usr/share/nginx/html/index.html
+
+
+  site2:
+    image: nginx:alpine
+    container_name: my-second-site
+    ports:
+      - "8001:80"
+    volumes:
+      - ./index2.html:/usr/share/nginx/html/index.html
+
+
+  env-site:
+    image: nginx:alpine
+    container_name: env-site
+    ports:
+      - "8003:80"
+    volumes:
+      - ./index_env.html:/usr/share/nginx/html/index.html
+    environment:
+      - MY_NAME=Captain_Turmsek
+      - MY_AGE=17
+
+
+  python-app:
+    build: .
+    container_name: python-site
+    ports:
+      - "8004:5000"
+    environment:
+      - MY_NAME=Командир_Турмсек
+      - MY_AGE=17
